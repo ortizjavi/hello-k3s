@@ -34,17 +34,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: azure/setup-kubectl@v3
-        with:
-           version: 'latest' # default is latest stable
-        id: install
       - uses: azure/k8s-set-context@v3
         with:
-           method: kubeconfig
            kubeconfig: '{{secrets.KUBECONFIG}}'
-           context: default
       - uses: azure/k8s-deploy@v4
-        env:
-          KUBECONFIG: '{{secrets.KUBECONFIG}}'
         with:
           action: deploy
           manifests: |
