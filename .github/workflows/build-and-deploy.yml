@@ -32,6 +32,7 @@ jobs:
     needs: [create-user-image]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: azure/setup-kubectl@v3
         with:
            version: 'latest' # default is latest stable
@@ -41,7 +42,6 @@ jobs:
            method: kubeconfig
            kubeconfig: '{{secrets.KUBECONFIG}}'
            context: default
-      - uses: actions/checkout@v2
       - uses: azure/k8s-deploy@v4
         with:
           action: deploy
