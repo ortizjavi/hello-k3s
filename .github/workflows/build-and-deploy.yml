@@ -9,6 +9,7 @@ env:
   DOCKER_USERNAME: '${{secrets.DOCKER_USERNAME}}'
   DOCKER_PASSWORD: '${{secrets.DOCKER_PASSWORD}}'
   DOCKER_REPO: '${{secrets.DOCKER_REPO}}'
+  KUBECONFIG: ${{secrets.KUBECONFIG}}
 
 jobs:
   create-user-image:
@@ -36,7 +37,7 @@ jobs:
       - uses: azure/setup-kubectl@v3
       - uses: azure/k8s-set-context@v3
         with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
+          kubeconfig: $KUBECONFIG
       - uses: azure/k8s-deploy@v4
         with:
           action: deploy
