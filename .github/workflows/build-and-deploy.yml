@@ -1,0 +1,40 @@
+name: Docker Build Deploy
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+env:
+  DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+  DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+  DOCKER_REPO: ${{secrets.DOCKER_REPO}}
+
+jobs:
+  create-user-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Work Dir
+        run: |
+          echo $DOCKER_USERNAME
+          echo $DOCKER_PASSWORD
+          echo $DOCKER_REPO
+      - name: Docker login
+        run: |
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - name: Build user service docker image
+        run: docker build . --file Dockerfile -t "$DOCKER_USERNAME/$DOCKER_REPO:latest"
+      - name: Push user service docker image
+        run: docker push "$DOCKER_USERNAME/$DOCKER_REPO:latest"
+
+  deployment:
+    needs: [create-user-image]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jtalk/k8s-deploy@v2
+        with:
+          namespace: 'default'
+          manifests: manifests/*
+          images: '$DOCKER_USERNAME/$DOCKER_REPO:latest'
+          kubectl-version: 'latest'
