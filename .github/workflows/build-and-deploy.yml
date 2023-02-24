@@ -43,7 +43,10 @@ jobs:
            kubeconfig: '{{secrets.KUBECONFIG}}'
            context: default
       - uses: azure/k8s-deploy@v4
+        env:
+          KUBECONFIG: '{{secrets.KUBECONFIG}}'
         with:
           action: deploy
           manifests: |
              manifests
+          private-cluster: true
