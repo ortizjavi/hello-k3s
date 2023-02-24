@@ -32,6 +32,10 @@ jobs:
     needs: [create-user-image]
     runs-on: ubuntu-latest
     steps:
+      - uses: azure/setup-kubectl@v3
+        with:
+           version: 'default' # default is latest stable
+        id: install
       - uses: azure/k8s-set-context@v3
         with:
            method: kubeconfig
