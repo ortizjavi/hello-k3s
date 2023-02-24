@@ -40,6 +40,9 @@ jobs:
       - uses: jtalk/k8s-deploy@v2
         with:
           namespace: 'default'
-          manifests: manifests
+          manifests: |
+            manifests/deploy.yaml
+            manifests/service.yaml
+            manifests/ingress.yaml
           images: '$DOCKER_USERNAME/$DOCKER_REPO:latest'
           kubectl-version: 'latest'
