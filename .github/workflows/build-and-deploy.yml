@@ -37,6 +37,7 @@ jobs:
            method: kubeconfig
            kubeconfig: '{{secrets.KUBECONFIG}}'
            context: default
+      - uses: actions/checkout@v2
       - uses: azure/k8s-deploy@v4
         with:
           namespace: 'default'
