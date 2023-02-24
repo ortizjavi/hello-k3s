@@ -41,8 +41,9 @@ jobs:
         with:
           namespace: 'default'
           manifests: |
-            manifests/deploy.yaml
-            manifests/service.yaml
-            manifests/ingress.yaml
+            dir/manifests
+#            manifests/deploy.yaml
+#            manifests/service.yaml
+#            manifests/ingress.yaml
           images: '$DOCKER_USERNAME/$DOCKER_REPO:latest'
           kubectl-version: 'latest'
