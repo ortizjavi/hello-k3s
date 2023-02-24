@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: azure/setup-kubectl@v3
         with:
-           version: 'default' # default is latest stable
+           version: 'latest' # default is latest stable
         id: install
       - uses: azure/k8s-set-context@v3
         with:
