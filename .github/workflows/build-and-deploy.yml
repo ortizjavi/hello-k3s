@@ -32,6 +32,11 @@ jobs:
     needs: [create-user-image]
     runs-on: ubuntu-latest
     steps:
+      - uses: azure/k8s-set-context@v3
+        with:
+           method: kubeconfig
+           kubeconfig: '{{secrets.KUBECONFIG}}'
+           context: default
       - uses: jtalk/k8s-deploy@v2
         with:
           namespace: 'default'
