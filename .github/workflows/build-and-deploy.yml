@@ -40,11 +40,11 @@ jobs:
           kubeconfig: $KUBECONFIG
       - uses: azure/k8s-deploy@v4
         with:
-#           resource-group: yourResourceGroup
+          resource-group: yourResourceGroup
           name: default
-#           strategy: basic
+          strategy: basic
           namespace: default
-          private-cluster: false
+          private-cluster: true
           action: deploy
           manifests: |
              manifests
