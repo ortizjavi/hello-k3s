@@ -2,15 +2,12 @@ name: Docker Build Deploy
 
 on:
   push:
-    branches: [master]
-  workflow_dispatch:
-
+    branches: 
+      - 'main'
 env:
   DOCKER_USERNAME: '${{secrets.DOCKER_USERNAME}}'
   DOCKER_PASSWORD: '${{secrets.DOCKER_PASSWORD}}'
   DOCKER_REPO: '${{secrets.DOCKER_REPO}}'
-  KUBERNETES_SECRET: '${{secrets.KUBERNETES_SECRET}}'
-  KUBERNETES_URL: '${{secrets.KUBERNETES_URL}}'
 
 jobs:
   create-user-image:
