@@ -9,18 +9,14 @@ env:
   DOCKER_USERNAME: '${{secrets.DOCKER_USERNAME}}'
   DOCKER_PASSWORD: '${{secrets.DOCKER_PASSWORD}}'
   DOCKER_REPO: '${{secrets.DOCKER_REPO}}'
-  KUBECONFIG: '${{secrets.KUBECONFIG}}'
+  KUBERNETES_SECRET: '${{secrets.KUBERNETES_SECRET}}'
+  KUBERNETES_URL: '${{secrets.KUBERNETES_URL}}'
 
 jobs:
   create-user-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Work Dir
-        run: |
-          echo $DOCKER_USERNAME
-          echo $DOCKER_PASSWORD
-          echo $DOCKER_REPO
       - name: Docker login
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
@@ -33,11 +29,13 @@ jobs:
     needs: [create-user-image]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: azure/setup-kubectl@v3
-      - uses: azure/k8s-set-context@v3
+      - name: Set the Kubernetes context
+        uses: azure/k8s-set-context@v3
         with:
-          kubeconfig: $KUBECONFIG
+          method: service-account
+          k8s-url: $KUBERNETES_URL
+          k8s-secret: $KUBERNETES_SECRET
+      - uses: actions/checkout@v2
       - uses: azure/k8s-deploy@v4
         with:
           resource-group: yourResourceGroup
